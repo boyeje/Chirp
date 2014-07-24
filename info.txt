@@ -1,0 +1,37 @@
+Dans l'air, une différence de 1 milliseconde équivaut environ à 33 cm pour c=333 m/s
+
+Scipy et numpy devrait suffir pour le travail, je pense souhaitable de ne pas utilisé pyaudio (alourdi le programme).
+
+On peut utiliser le code suivant pour calculer une durée 
+start = time.time() 
+	mon code à chronométré
+duration = time.time()-start # en seconde
+
+Page sur les calcul de chirp http://fr.wikipedia.org/wiki/Compression_d%27impulsion
+
+J'ai installé pyalsaaudio pour atteindre le microphone, les premiers test ne fonctionnaient pas car le volume du micro était trop faible.
+Documentation pyalsa http://pyalsaaudio.sourceforge.net/
+
+D'après la doc du raspberry, les bonne carte son peuvent mal fonctionnées. Il est recommandé de travailler en 44.1hz à 16-bits cf ci dessous
+http://www.raspberrypi.org/documentation/hardware/raspberrypi/usb.md
+3. Esoteric USB sound cards
+Expensive "audiophile" sound cards typically use far more bandwidth than is necessary to stream audio playback. Reliable operation with 96kHz/192kHz DACs is not guaranteed.
+As a workaround, forcing the output stream to be CD quality (44.1kHz/48kHz 16-bit) will reduce the stream bandwidth to reliable levels.
+
+Pour le passage au langage C, il n'est pas necéssaire d'avoir une haute résolution en amplitude (quantification) de signal, c'est la résolution en fréquence qui compte.
+
+en fonctionnement avec deux robot (emission et reception) le travail sur le recepteur n'est pas trivial, il doit attendre le chirp, le reconnaitre et renvoyer un message, le calcul doit se faire en temps réel car un traitement différé accumule du retard. sauf s'il attend pour une période défini puis renvoi le chirp avec un décalage constant connu, il faudra alors que ce décalage prenne en compte le délai calculé lors de l'autocalibration. par exemple, si je choisi un décalage d'une seconde, et l'autocalibration 0.1 sec alors le robot renvoi un chirp 0.9 sec après la date de reception
+
+//pour transformer '\xff' en 255 (un int) il faut faire ord('\xff')
+//hex(255) renvoi '0xff'
+Pour les conversion de int à string utiliser pack et unpack (voir writeWave.py pour son utilisation)
+
+commencer le chirp et le finir par une série de 0, il sera lu plus facilement 
+
+TODO :
+lire les data d'un .wav pour analyser le format de donnée
+emetre un chirp creer par python (donc connaitre comment formater le signal)
+
+plus tard savoir lancer des thread python (reception de l'audio et calcul du temps de retard) : il est toujours possible de mettre un temps d'enregistrement ( en considerant qu'un message est perdu s'il ne mets pas un certains temps à revenir en effet un aller retour de 4 sec signifie une distance de 700 mètre dans l'air) puis d'analyser le signal recu.
+
+
