@@ -1,0 +1,60 @@
+Tutoriel GitHub
+
+# Installation
+sudo apt-get install git-core gitk
+
+# Configuration
+git config --global color.diff auto
+git config --global color.status auto
+git config --global color.branch auto
+
+git config --global user.name "simonENSTA"
+git config --global user.email simon.stephan@ensta-bretagne.org
+
+# Fichier de configuration
+cat ~/.gitconfig
+
+# Créer un dépot
+git init
+
+# Cloner un dépot
+# Se positionner dans le workspace
+# url du projet sous github
+git clone https://github.com/boyeje/acoustic-chirpgit
+
+# Commande de base
+git status
+git diff
+git log
+
+# Méthode de travail
+    modifier le code source
+    tester votre programme pour vérifier si cela fonctionne
+    faire un commit pour « enregistrer » les changements
+    recommencer à partir de l’étape 1 pour une autre modification
+    
+# Effectuer un commit
+git status
+	# Si fichier a ajouter
+	git add nomfichier1 
+git commit -a 
+
+# Annuler le dernier commit
+git reset HEAD^
+
+# Annuler les modifications d’un fichier avant un commit
+git checkout nomfichier
+
+# Télécharger les nouveautés
+git pull
+
+# Afficher les branches
+git branch
+
+# Créer une branche et changer de branche
+git branch nombranche
+git checkout nombranche
+
+# Valider un commit
+git push
+
