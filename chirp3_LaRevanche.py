@@ -2,10 +2,10 @@ import numpy as np
 import time
 import math
 import matplotlib.pyplot as plt #ralenti fortement le script
-from scipy.signal import * #permet l'utilisation de scipy.signal.chirp(t, f0=0, t1=1, f1=100, method='linear', phi=0, qshape=None)
-time_base=np.arange(0,1,1.0/2000)
-time_base4=np.arange(-1,4,1.0/2000)# 2000hz echantillonage
-time_base4_true=np.arange(0,4,1.0/2000)#ne pas oublier que 1/44100=0 
+import scipy.signal as ss #permet l'utilisation de scipy.signal.chirp(t, f0=0, t1=1, f1=100, method='linear', phi=0, qshape=None)
+time_base=np.arange(0,1,1.0/44100)
+time_base4=np.arange(-1,4,1.0/44100)# 2000hz echantillonage
+time_base4_true=np.arange(0,4,1.0/44100)#ne pas oublier que 1/44100=0 
 
 
 #chirp220to3520=np.array([])
@@ -14,8 +14,8 @@ chirpto440_decal=np.zeros(time_base4_true.size)
 i=0
 for t in np.nditer(time_base): #boucle for sur un array
 	#chirp220to3520=np.concatenate((chirp220to3520,np.array([chirp(t,220,1,3520)])))
-	chirp220to440=np.concatenate((chirp220to440,np.array([chirp(t,220,1,440)])))
-	chirpto440_decal[4000+i]=chirp(t,220,1,440) 
+	chirp220to440=np.concatenate((chirp220to440,np.array([ss.chirp(t,220,1,440)])))
+	chirpto440_decal[44100+i]=ss.chirp(t,220,1,440) 
 	i=i+1
 
 #plt.plot(time_base,chirp220to440)
@@ -39,11 +39,16 @@ cor=np.zeros(time_base4_true.size)
 #duration=time.time()-start 
 
 start=time.time()
-corr=np.correlate(realSound,chirp220to440,'same')
+conv=ss.fftconvolve(chirpto440_decal,chirp220to440[::-1],'valid')
+print len(conv)
+print len(realSound)
+print len(chirp220to440)
 duration=time.time()-start 
 #print cor.size
 #print time_base4_true.size
-plt.plot(corr)
+plt.plot(chirpto440_decal)
+plt.show()
+plt.plot(conv)
 print duration
 plt.show()
  

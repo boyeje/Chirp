@@ -183,7 +183,7 @@ begin_freq=3000
 end_freq=6000
 CHUNK_c = 32 #previously 128
 global call_chirp,call_flag,call_input,sema,nbrCall,PEAK,PEAK_FLAG,AUTOCAL
-AUTOCAL=14100 #a definir a l'aide de la fonction d'autocalibration
+AUTOCAL=14500 #a definir a l'aide de la fonction d'autocalibration
 PEAK=1000000000
 PEAK_FLAG=False
 call_flag=True

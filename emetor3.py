@@ -5,7 +5,8 @@ import struct
 import scipy.signal as ss
 import math
 import scipy.fftpack as ff
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
+
 def createChirp(rate,chirp_len,chunk,begin_freq,end_freq):
 	time_base=np.arange(0,chirp_len,1.0/rate)
 	chirp_data_Hex=10*'\x00\x00' # add some zeros before the signal, this must be counted for the time of flight
